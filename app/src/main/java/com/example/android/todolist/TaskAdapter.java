@@ -33,7 +33,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.android.todolist.database.TaskEntry;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -79,22 +78,11 @@ public class TaskAdapter extends PagedListAdapter<TaskEntry, TaskAdapter.TaskVie
     }
 
     @Override
-    public void onBindViewHolder(TaskViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         TaskEntry taskEntry = getItem(position);
-        assert taskEntry != null;
-        String description = taskEntry.getDescription();
-        int priority = taskEntry.getPriority();
-        String updatedAt = dateFormat.format(taskEntry.getUpdatedAt());
-
-        holder.taskDescriptionView.setText(description);
-        holder.updatedAtView.setText(updatedAt);
-
-        String priorityString = "" + priority;
-        holder.priorityView.setText(priorityString);
-
-        GradientDrawable priorityCircle = (GradientDrawable) holder.priorityView.getBackground();
-        int priorityColor = getPriorityColor(priority);
-        priorityCircle.setColor(priorityColor);
+        if (taskEntry != null) {
+            holder.bind(taskEntry);
+        }
     }
 
     private int getPriorityColor(int priority) {
@@ -132,6 +120,22 @@ public class TaskAdapter extends PagedListAdapter<TaskEntry, TaskAdapter.TaskVie
             updatedAtView = itemView.findViewById(R.id.taskUpdatedAt);
             priorityView = itemView.findViewById(R.id.priorityTextView);
             itemView.setOnClickListener(this);
+        }
+
+        void bind(TaskEntry taskEntry) {
+            String description = taskEntry.getDescription();
+            int priority = taskEntry.getPriority();
+            String updatedAt = dateFormat.format(taskEntry.getUpdatedAt());
+
+            taskDescriptionView.setText(description);
+            updatedAtView.setText(updatedAt);
+
+            String priorityString = "" + priority;
+            priorityView.setText(priorityString);
+
+            GradientDrawable priorityCircle = (GradientDrawable) priorityView.getBackground();
+            int priorityColor = getPriorityColor(priority);
+            priorityCircle.setColor(priorityColor);
         }
 
         @Override
