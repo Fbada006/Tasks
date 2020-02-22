@@ -29,7 +29,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.todolist.database.AppDatabase;
 import com.example.android.todolist.database.TaskEntry;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -37,8 +36,6 @@ import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
 
 public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemClickListener {
 
-    // Constant for logging
-    private static final String TAG = MainActivity.class.getSimpleName();
     private TaskAdapter mAdapter;
 
     private AppDatabase mDb;
@@ -61,8 +58,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
         mAdapter = new TaskAdapter(this, this);
         recyclerView.setAdapter(mAdapter);
 
-        DividerItemDecoration decoration = new DividerItemDecoration(getApplicationContext(), VERTICAL);
-        recyclerView.addItemDecoration(decoration);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), VERTICAL));
 
         /*
          Add a touch helper to the RecyclerView to recognize when a user swipes to delete an item.
@@ -92,9 +88,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
          Attach an OnClickListener to it, so that when it's clicked, a new intent will be created
          to launch the AddTaskActivity.
          */
-        FloatingActionButton fabButton = findViewById(R.id.add_new_task_fab);
-
-        fabButton.setOnClickListener(view -> {
+        findViewById(R.id.add_new_task_fab).setOnClickListener(view -> {
             // Create a new intent to start an AddTaskActivity
             Intent addTaskIntent = new Intent(MainActivity.this, AddTaskActivity.class);
             startActivity(addTaskIntent);
