@@ -18,9 +18,12 @@ package com.example.android.todolist;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -29,8 +32,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.todolist.adapter.TaskAdapter;
 import com.example.android.todolist.addTask.AddTaskActivity;
+import com.example.android.todolist.addTask.TimePickerFragment;
 import com.example.android.todolist.database.AppDatabase;
 import com.example.android.todolist.database.TaskEntry;
+import com.example.android.todolist.settings.SettingsActivity;
 
 import java.util.List;
 
@@ -96,6 +101,20 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
             mAdapter.submitList(taskEntries);
             mTaskEntries = taskEntries;
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

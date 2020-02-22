@@ -11,19 +11,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".settings.SettingsActivity"></activity>
         <!-- The manifest entry for the MainActivity -->
-        <activity android:name="com.example.android.todolist.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- AddTaskActivity -->
+        </activity> <!-- AddTaskActivity -->
         <activity
-            android:name="com.example.android.todolist.addTask.AddTaskActivity"
+            android:name=".addTask.AddTaskActivity"
             android:theme="@style/DetailsTheme" />
     </application>
+
 </manifest>
