@@ -61,7 +61,6 @@ public class TaskAdapter extends PagedListAdapter<TaskEntry, TaskAdapter.TaskVie
     private Context mContext;
     private SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
 
-
     TaskAdapter(Context context, ItemClickListener listener) {
         super(diffUtil);
         mContext = context;
@@ -123,18 +122,14 @@ public class TaskAdapter extends PagedListAdapter<TaskEntry, TaskAdapter.TaskVie
         }
 
         void bind(TaskEntry taskEntry) {
-            String description = taskEntry.getDescription();
-            int priority = taskEntry.getPriority();
-            String updatedAt = dateFormat.format(taskEntry.getUpdatedAt());
+            taskDescriptionView.setText(taskEntry.getDescription());
+            updatedAtView.setText(dateFormat.format(taskEntry.getUpdatedAt()));
 
-            taskDescriptionView.setText(description);
-            updatedAtView.setText(updatedAt);
-
-            String priorityString = "" + priority;
+            String priorityString = "" + taskEntry.getPriority();
             priorityView.setText(priorityString);
 
             GradientDrawable priorityCircle = (GradientDrawable) priorityView.getBackground();
-            int priorityColor = getPriorityColor(priority);
+            int priorityColor = getPriorityColor(taskEntry.getPriority());
             priorityCircle.setColor(priorityColor);
         }
 
