@@ -24,6 +24,7 @@ import android.widget.RadioGroup;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -33,7 +34,6 @@ import com.example.android.todolist.database.TaskEntry;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Objects;
 
 
 public class AddTaskActivity extends AppCompatActivity {
@@ -69,7 +69,9 @@ public class AddTaskActivity extends AppCompatActivity {
 
         final long time = System.currentTimeMillis();
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Created at " + dateFormat.format(time));
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Created at " + dateFormat.format(time));
+        setSupportActionBar(toolbar);
 
         initViews();
 
