@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
          Attach an OnClickListener to it, so that when it's clicked, a new intent will be created
          to launch the AddTaskActivity.
          */
-        FloatingActionButton fabButton = findViewById(R.id.fab);
+        FloatingActionButton fabButton = findViewById(R.id.add_new_task_fab);
 
         fabButton.setOnClickListener(view -> {
             // Create a new intent to start an AddTaskActivity
