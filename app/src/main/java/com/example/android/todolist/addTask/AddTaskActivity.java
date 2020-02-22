@@ -14,27 +14,33 @@
  * limitations under the License.
  */
 
-package com.example.android.todolist;
+package com.example.android.todolist.addTask;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.android.todolist.AppExecutors;
+import com.example.android.todolist.R;
 import com.example.android.todolist.database.AppDatabase;
 import com.example.android.todolist.database.TaskEntry;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -88,13 +94,8 @@ public class AddTaskActivity extends AppCompatActivity {
                 // populate the UI
                 mTaskId = intent.getIntExtra(EXTRA_TASK_ID, DEFAULT_TASK_ID);
 
-                // TODO (9) Remove the logging and the call to loadTaskById, this is done in the ViewModel now
-                // TODO (10) Declare a AddTaskViewModelFactory using mDb and mTaskId
                 AddTaskViewModelFactory addTaskViewModelFactory = new AddTaskViewModelFactory(mDb, mTaskId);
-                // TODO (11) Declare a AddTaskViewModel variable and initialize it by calling ViewModelProviders.of
-                // for that use the factory created above AddTaskViewModel
                 final AddTaskViewModel addTaskViewModel = new ViewModelProvider(this, addTaskViewModelFactory).get(AddTaskViewModel.class);
-                // TODO (12) Observe the LiveData object in the ViewModel. Use it also when removing the observer
                 addTaskViewModel.getTask().observe(this, new Observer<TaskEntry>() {
                     @Override
                     public void onChanged(@Nullable TaskEntry taskEntry) {
@@ -110,6 +111,21 @@ public class AddTaskActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt(INSTANCE_TASK_ID, mTaskId);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_time) {
+            DialogFragment dialogFragment = new TimePickerFragment();
+            dialogFragment.show(getSupportFragmentManager(), "picker tag");
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -195,5 +211,16 @@ public class AddTaskActivity extends AppCompatActivity {
             case PRIORITY_LOW:
                 ((RadioGroup) findViewById(R.id.radioGroup)).check(R.id.radButton3);
         }
+    }
+
+    public long processTimePickerResultForWork(int hourOfDay, int minute) {
+        long currentTime = System.currentTimeMillis();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(currentTime);
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        calendar.set(Calendar.MINUTE, minute);
+
+        return calendar.getTimeInMillis() - currentTime;
     }
 }

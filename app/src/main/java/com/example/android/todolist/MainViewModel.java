@@ -30,7 +30,7 @@ public class MainViewModel extends AndroidViewModel {
         tasks = builder.build();
     }
 
-    public LiveData<PagedList<TaskEntry>> getTasks() {
+    LiveData<PagedList<TaskEntry>> getTasks() {
         return tasks;
     }
 }

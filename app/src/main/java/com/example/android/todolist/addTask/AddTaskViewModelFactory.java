@@ -1,4 +1,4 @@
-package com.example.android.todolist;
+package com.example.android.todolist.addTask;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -11,7 +11,7 @@ public class AddTaskViewModelFactory extends ViewModelProvider.NewInstanceFactor
     private final AppDatabase mDb;
     private final int mTaskId;
 
-    public AddTaskViewModelFactory(AppDatabase database, int taskId) {
+    AddTaskViewModelFactory(AppDatabase database, int taskId) {
         mDb = database;
         mTaskId = taskId;
     }

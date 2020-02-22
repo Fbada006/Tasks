@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.todolist;
+package com.example.android.todolist.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -30,6 +30,7 @@ import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.android.todolist.R;
 import com.example.android.todolist.database.TaskEntry;
 
 import java.text.SimpleDateFormat;
@@ -61,7 +62,7 @@ public class TaskAdapter extends PagedListAdapter<TaskEntry, TaskAdapter.TaskVie
     private Context mContext;
     private SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
 
-    TaskAdapter(Context context, ItemClickListener listener) {
+   public TaskAdapter(Context context, ItemClickListener listener) {
         super(diffUtil);
         mContext = context;
         mItemClickListener = listener;

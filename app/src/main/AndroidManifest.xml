@@ -22,7 +22,7 @@
 
         <!-- AddTaskActivity -->
         <activity
-            android:name="com.example.android.todolist.AddTaskActivity"
+            android:name="com.example.android.todolist.addTask.AddTaskActivity"
             android:theme="@style/DetailsTheme"/>
     </application>
 </manifest>
