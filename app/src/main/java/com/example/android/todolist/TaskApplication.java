@@ -12,6 +12,7 @@ import com.example.android.todolist.work.TaskWorker;
 
 import java.util.concurrent.TimeUnit;
 
+/**The application class*/
 public class TaskApplication extends Application {
 
     @Override
