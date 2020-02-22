@@ -16,21 +16,24 @@
 
 package com.example.android.todolist;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.android.todolist.database.AppDatabase;
 import com.example.android.todolist.database.TaskEntry;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Objects;
 
 
 public class AddTaskActivity extends AppCompatActivity {
@@ -57,9 +60,16 @@ public class AddTaskActivity extends AppCompatActivity {
     // Member variable for the Database
     private AppDatabase mDb;
 
+    private static final String DATE_FORMAT = "dd/MM/yyy";
+    private SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+
+        final long time = System.currentTimeMillis();
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Created at " + dateFormat.format(time));
 
         initViews();
 
@@ -81,7 +91,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 AddTaskViewModelFactory addTaskViewModelFactory = new AddTaskViewModelFactory(mDb, mTaskId);
                 // TODO (11) Declare a AddTaskViewModel variable and initialize it by calling ViewModelProviders.of
                 // for that use the factory created above AddTaskViewModel
-                final AddTaskViewModel addTaskViewModel = ViewModelProviders.of(this, addTaskViewModelFactory).get(AddTaskViewModel.class);
+                final AddTaskViewModel addTaskViewModel = new ViewModelProvider(this, addTaskViewModelFactory).get(AddTaskViewModel.class);
                 // TODO (12) Observe the LiveData object in the ViewModel. Use it also when removing the observer
                 addTaskViewModel.getTask().observe(this, new Observer<TaskEntry>() {
                     @Override
@@ -108,12 +118,7 @@ public class AddTaskActivity extends AppCompatActivity {
         mRadioGroup = findViewById(R.id.radioGroup);
 
         mButton = findViewById(R.id.saveButton);
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onSaveButtonClicked();
-            }
-        });
+        mButton.setOnClickListener(view -> onSaveButtonClicked());
     }
 
     /**
@@ -140,19 +145,16 @@ public class AddTaskActivity extends AppCompatActivity {
         Date date = new Date();
 
         final TaskEntry task = new TaskEntry(description, priority, date);
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                if (mTaskId == DEFAULT_TASK_ID) {
-                    // insert new task
-                    mDb.taskDao().insertTask(task);
-                } else {
-                    //update task
-                    task.setId(mTaskId);
-                    mDb.taskDao().updateTask(task);
-                }
-                finish();
+        AppExecutors.getInstance().diskIO().execute(() -> {
+            if (mTaskId == DEFAULT_TASK_ID) {
+                // insert new task
+                mDb.taskDao().insertTask(task);
+            } else {
+                //update task
+                task.setId(mTaskId);
+                mDb.taskDao().updateTask(task);
             }
+            finish();
         });
     }
 

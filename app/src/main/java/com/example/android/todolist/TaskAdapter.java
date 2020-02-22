@@ -71,7 +71,7 @@ public class TaskAdapter extends PagedListAdapter<TaskEntry, TaskAdapter.TaskVie
      * @param context  the current Context
      * @param listener the ItemClickListener
      */
-    public TaskAdapter(Context context, ItemClickListener listener) {
+    TaskAdapter(Context context, ItemClickListener listener) {
         super(diffUtil);
         mContext = context;
         mItemClickListener = listener;
@@ -82,8 +82,9 @@ public class TaskAdapter extends PagedListAdapter<TaskEntry, TaskAdapter.TaskVie
      *
      * @return A new TaskViewHolder that holds the view for each task
      */
+    @NonNull
     @Override
-    public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Inflate the task_layout to a view
         View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.task_layout, parent, false);
@@ -101,6 +102,7 @@ public class TaskAdapter extends PagedListAdapter<TaskEntry, TaskAdapter.TaskVie
     public void onBindViewHolder(TaskViewHolder holder, int position) {
         // Determine the values of the wanted data
         TaskEntry taskEntry = getItem(position);
+        assert taskEntry != null;
         String description = taskEntry.getDescription();
         int priority = taskEntry.getPriority();
         String updatedAt = dateFormat.format(taskEntry.getUpdatedAt());
@@ -142,20 +144,6 @@ public class TaskAdapter extends PagedListAdapter<TaskEntry, TaskAdapter.TaskVie
         return priorityColor;
     }
 
-/*
-    public List<TaskEntry> getTasks() {
-        return mTaskEntries;
-    }
-
-    *//**
-     * When data changes, this method updates the list of taskEntries
-     * and notifies the adapter to use the new values on it
-     *//*
-    public void setTasks(List<TaskEntry> taskEntries) {
-        mTaskEntries = taskEntries;
-        notifyDataSetChanged();
-    }*/
-
     public interface ItemClickListener {
         void onItemClickListener(int itemId);
     }
@@ -173,7 +161,7 @@ public class TaskAdapter extends PagedListAdapter<TaskEntry, TaskAdapter.TaskVie
          *
          * @param itemView The view inflated in onCreateViewHolder
          */
-        public TaskViewHolder(View itemView) {
+        TaskViewHolder(View itemView) {
             super(itemView);
 
             taskDescriptionView = itemView.findViewById(R.id.taskDescription);
