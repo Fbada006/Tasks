@@ -16,15 +16,11 @@ import java.util.List;
 
 public class MainViewModel extends AndroidViewModel {
 
-    // Constant for logging
-    private static final String TAG = MainViewModel.class.getSimpleName();
-
     private LiveData<PagedList<TaskEntry>> tasks;
 
     public MainViewModel(Application application) {
         super(application);
         AppDatabase database = AppDatabase.getInstance(this.getApplication());
-        Log.d(TAG, "Actively retrieving the tasks from the DataBase");
         buildPagedList(database);
     }
 
