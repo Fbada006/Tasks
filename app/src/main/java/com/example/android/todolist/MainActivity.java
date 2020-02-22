@@ -17,12 +17,14 @@
 package com.example.android.todolist;
 
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,7 +39,6 @@ import java.util.List;
 
 import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
 
-
 public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemClickListener {
 
     // Constant for logging
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
     private TaskAdapter mAdapter;
 
     private AppDatabase mDb;
+    List<TaskEntry> mTaskEntries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
                     @Override
                     public void run() {
                         int position = viewHolder.getAdapterPosition();
-                        List<TaskEntry> tasks = mAdapter.getTasks();
+                        List<TaskEntry> tasks = mTaskEntries;
                         mDb.taskDao().deleteTask(tasks.get(position));
                     }
                 });
@@ -114,12 +116,13 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
     }
 
     private void setupViewModel() {
-        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        viewModel.getTasks().observe(this, new Observer<List<TaskEntry>>() {
+        MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        viewModel.getTasks().observe(this, new Observer<PagedList<TaskEntry>>() {
             @Override
-            public void onChanged(@Nullable List<TaskEntry> taskEntries) {
-                Log.d(TAG, "Updating list of tasks from LiveData in ViewModel");
-                mAdapter.setTasks(taskEntries);
+            public void onChanged(PagedList<TaskEntry> taskEntries) {
+                Log.e(TAG, "onChanged: ----------------" + taskEntries.size());
+                mAdapter.submitList(taskEntries);
+                mTaskEntries = taskEntries;
             }
         });
     }

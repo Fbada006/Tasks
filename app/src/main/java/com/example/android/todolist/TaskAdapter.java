@@ -1,49 +1,66 @@
 /*
-* Copyright (C) 2016 The Android Open Source Project
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.example.android.todolist;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.todolist.database.TaskEntry;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * This TaskAdapter creates and binds ViewHolders, that hold the description and priority of a task,
  * to a RecyclerView to efficiently display data.
  */
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
+public class TaskAdapter extends PagedListAdapter<TaskEntry, TaskAdapter.TaskViewHolder> {
+
+    private static final DiffUtil.ItemCallback<TaskEntry> diffUtil = new DiffUtil.ItemCallback<TaskEntry>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull TaskEntry oldItem, @NonNull TaskEntry newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @SuppressLint("DiffUtilEquals")
+        @Override
+        public boolean areContentsTheSame(@NonNull TaskEntry oldItem, @NonNull TaskEntry newItem) {
+            return oldItem == newItem;
+        }
+    };
 
     // Constant for date format
     private static final String DATE_FORMAT = "dd/MM/yyy";
 
     // Member variable to handle item clicks
     final private ItemClickListener mItemClickListener;
-    // Class variables for the List that holds task data and the Context
-    private List<TaskEntry> mTaskEntries;
     private Context mContext;
     // Date formatter
     private SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
@@ -55,6 +72,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
      * @param listener the ItemClickListener
      */
     public TaskAdapter(Context context, ItemClickListener listener) {
+        super(diffUtil);
         mContext = context;
         mItemClickListener = listener;
     }
@@ -82,7 +100,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @Override
     public void onBindViewHolder(TaskViewHolder holder, int position) {
         // Determine the values of the wanted data
-        TaskEntry taskEntry = mTaskEntries.get(position);
+        TaskEntry taskEntry = getItem(position);
         String description = taskEntry.getDescription();
         int priority = taskEntry.getPriority();
         String updatedAt = dateFormat.format(taskEntry.getUpdatedAt());
@@ -124,29 +142,19 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         return priorityColor;
     }
 
-    /**
-     * Returns the number of items to display.
-     */
-    @Override
-    public int getItemCount() {
-        if (mTaskEntries == null) {
-            return 0;
-        }
-        return mTaskEntries.size();
-    }
-
+/*
     public List<TaskEntry> getTasks() {
         return mTaskEntries;
     }
 
-    /**
+    *//**
      * When data changes, this method updates the list of taskEntries
      * and notifies the adapter to use the new values on it
-     */
+     *//*
     public void setTasks(List<TaskEntry> taskEntries) {
         mTaskEntries = taskEntries;
         notifyDataSetChanged();
-    }
+    }*/
 
     public interface ItemClickListener {
         void onItemClickListener(int itemId);
@@ -177,7 +185,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         @Override
         public void onClick(View view) {
             final int adapterPosition = getAdapterPosition();
-            int elementId = mTaskEntries.get(adapterPosition).getId();
+            int elementId = Objects.requireNonNull(getItem(adapterPosition)).getId();
             mItemClickListener.onItemClickListener(elementId);
         }
     }
