@@ -20,4 +20,20 @@
     <string name="add_button">Add</string>
     <string name="update_button">Update</string>
 
+    <!--Preferences-->
+    <string name="pref_night_mode_title">Night Mode</string>
+    <string name="pref_night_mode_key">night_mode</string>
+    <string name="pref_night_battery_set_label">Set by Battery Saver</string>
+    <string name="pref_night_on_label">On</string>
+    <string name="pref_night_off_label">Off</string>
+
+    <string name="pref_night_battery_set_value">auto</string>
+    <string name="pref_night_on_value">on</string>
+    <string name="pref_night_off_value">off</string>
+
+    <string name="pref_show_notifications_summary_on">On</string>
+    <string name="pref_show_notifications_summary_off">Off</string>
+    <string name="pref_show_notifications_key">pref_show_notifications_key</string>
+    <string name="pref_notifications_label">Show Notifications</string>
+
 </resources>
