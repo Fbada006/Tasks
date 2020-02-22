@@ -56,75 +56,47 @@ public class TaskAdapter extends PagedListAdapter<TaskEntry, TaskAdapter.TaskVie
         }
     };
 
-    // Constant for date format
     private static final String DATE_FORMAT = "dd/MM/yyy";
 
-    // Member variable to handle item clicks
     final private ItemClickListener mItemClickListener;
     private Context mContext;
-    // Date formatter
     private SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
 
-    /**
-     * Constructor for the TaskAdapter that initializes the Context.
-     *
-     * @param context  the current Context
-     * @param listener the ItemClickListener
-     */
+
     TaskAdapter(Context context, ItemClickListener listener) {
         super(diffUtil);
         mContext = context;
         mItemClickListener = listener;
     }
 
-    /**
-     * Called when ViewHolders are created to fill a RecyclerView.
-     *
-     * @return A new TaskViewHolder that holds the view for each task
-     */
     @NonNull
     @Override
     public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflate the task_layout to a view
         View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.task_layout, parent, false);
 
         return new TaskViewHolder(view);
     }
 
-    /**
-     * Called by the RecyclerView to display data at a specified position in the Cursor.
-     *
-     * @param holder   The ViewHolder to bind Cursor data to
-     * @param position The position of the data in the Cursor
-     */
     @Override
     public void onBindViewHolder(TaskViewHolder holder, int position) {
-        // Determine the values of the wanted data
         TaskEntry taskEntry = getItem(position);
         assert taskEntry != null;
         String description = taskEntry.getDescription();
         int priority = taskEntry.getPriority();
         String updatedAt = dateFormat.format(taskEntry.getUpdatedAt());
 
-        //Set values
         holder.taskDescriptionView.setText(description);
         holder.updatedAtView.setText(updatedAt);
 
-        // Programmatically set the text and color for the priority TextView
-        String priorityString = "" + priority; // converts int to String
+        String priorityString = "" + priority;
         holder.priorityView.setText(priorityString);
 
         GradientDrawable priorityCircle = (GradientDrawable) holder.priorityView.getBackground();
-        // Get the appropriate background color based on the priority
         int priorityColor = getPriorityColor(priority);
         priorityCircle.setColor(priorityColor);
     }
 
-    /*
-    Helper method for selecting the correct priority circle color.
-    P1 = red, P2 = orange, P3 = yellow
-    */
     private int getPriorityColor(int priority) {
         int priorityColor = 0;
 
@@ -148,19 +120,11 @@ public class TaskAdapter extends PagedListAdapter<TaskEntry, TaskAdapter.TaskVie
         void onItemClickListener(int itemId);
     }
 
-    // Inner class for creating ViewHolders
     class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        // Class variables for the task description and priority TextViews
         TextView taskDescriptionView;
         TextView updatedAtView;
         TextView priorityView;
 
-        /**
-         * Constructor for the TaskViewHolders.
-         *
-         * @param itemView The view inflated in onCreateViewHolder
-         */
         TaskViewHolder(View itemView) {
             super(itemView);
 

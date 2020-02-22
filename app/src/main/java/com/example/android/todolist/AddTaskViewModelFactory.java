@@ -6,21 +6,16 @@ import androidx.annotation.NonNull;
 
 import com.example.android.todolist.database.AppDatabase;
 
-// TODO (1) Make this class extend ViewModel ViewModelProvider.NewInstanceFactory
 public class AddTaskViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    // TODO (2) Add two member variables. One for the database and one for the taskId
     private final AppDatabase mDb;
     private final int mTaskId;
 
-    // TODO (3) Initialize the member variables in the constructor with the parameters received
     public AddTaskViewModelFactory(AppDatabase database, int taskId) {
         mDb = database;
         mTaskId = taskId;
     }
 
-    // TODO (4) Uncomment the following method
-    // Note: This can be reused with minor modifications
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {

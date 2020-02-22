@@ -46,15 +46,10 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Set the RecyclerView to its corresponding view
-        // Member variables for the adapter and RecyclerView
         RecyclerView recyclerView = findViewById(R.id.recyclerViewTasks);
 
-        // Set the layout for the RecyclerView to be a linear layout, which measures and
-        // positions items within a RecyclerView into a linear list
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Initialize the adapter and attach it to the RecyclerView
         mAdapter = new TaskAdapter(this, this);
         recyclerView.setAdapter(mAdapter);
 
@@ -83,13 +78,8 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
             }
         }).attachToRecyclerView(recyclerView);
 
-        /*
-         Set the Floating Action Button (FAB) to its corresponding View.
-         Attach an OnClickListener to it, so that when it's clicked, a new intent will be created
-         to launch the AddTaskActivity.
-         */
+
         findViewById(R.id.add_new_task_fab).setOnClickListener(view -> {
-            // Create a new intent to start an AddTaskActivity
             Intent addTaskIntent = new Intent(MainActivity.this, AddTaskActivity.class);
             startActivity(addTaskIntent);
         });

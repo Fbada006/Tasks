@@ -8,7 +8,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- RecyclerView that is responsible for holding a listtaskEntrytask data -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTasks"
         android:layout_width="match_parent"
@@ -16,7 +15,6 @@
         android:clipToPadding="false"
         android:paddingBottom="80dp" />
 
-    <!-- Floating action button that launches AddTaskActivity when clicked -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_new_task_fab"
         android:layout_width="wrap_content"
