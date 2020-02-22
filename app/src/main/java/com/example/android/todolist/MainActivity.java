@@ -23,7 +23,6 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -32,10 +31,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.todolist.adapter.TaskAdapter;
 import com.example.android.todolist.addTask.AddTaskActivity;
-import com.example.android.todolist.addTask.TimePickerFragment;
 import com.example.android.todolist.database.AppDatabase;
 import com.example.android.todolist.database.TaskEntry;
 import com.example.android.todolist.settings.SettingsActivity;
+import com.example.android.todolist.utils.AppExecutors;
 
 import java.util.List;
 

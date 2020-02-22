@@ -1,4 +1,4 @@
-package com.example.android.todolist;
+package com.example.android.todolist.utils;
 
 import android.os.Handler;
 import android.os.Looper;

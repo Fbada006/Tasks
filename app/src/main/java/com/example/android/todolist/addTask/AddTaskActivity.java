@@ -32,7 +32,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.android.todolist.AppExecutors;
+import com.example.android.todolist.utils.AppExecutors;
 import com.example.android.todolist.R;
 import com.example.android.todolist.database.AppDatabase;
 import com.example.android.todolist.database.TaskEntry;
