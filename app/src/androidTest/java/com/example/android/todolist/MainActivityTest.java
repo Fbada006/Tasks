@@ -4,6 +4,8 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
+import com.example.android.todolist.addTask.AddTaskActivity;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
