@@ -26,8 +26,7 @@ public class MainViewModel extends AndroidViewModel {
 
     private void buildPagedList(AppDatabase database) {
         DataSource.Factory<Integer, TaskEntry> factory = database.taskDao().loadAllTasks();
-        LivePagedListBuilder builder = new LivePagedListBuilder(factory,20);
-        tasks = builder.build();
+        tasks = new LivePagedListBuilder<>(factory,20).build();
     }
 
     LiveData<PagedList<TaskEntry>> getTasks() {

@@ -52,7 +52,7 @@ public class TaskAdapter extends PagedListAdapter<TaskEntry, TaskAdapter.TaskVie
         @SuppressLint("DiffUtilEquals")
         @Override
         public boolean areContentsTheSame(@NonNull TaskEntry oldItem, @NonNull TaskEntry newItem) {
-            return oldItem == newItem;
+            return oldItem.equals(newItem);
         }
     };
 
